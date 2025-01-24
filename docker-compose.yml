@@ -1,15 +1,20 @@
 version: '3.8'
+
 services:
   web:
     build: .
     ports:
       - "8000:8000"
-    environment:
-      - DATABASE_URL=postgresql+asyncpg://user:password@db/wildberries_db
-      - AUTH_TOKEN=BearerYourAuthToken
-      - BOT_TOKEN=YourBotToken
+    env_file:  # Load environment variables from .env
+      - .env
     depends_on:
       - db
+    environment:
+      # These are linked to the .env file values for dynamic configuration
+      - DATABASE_URL=${DATABASE_URL}
+      - AUTH_TOKEN=${AUTH_TOKEN}
+      - BOT_TOKEN=${BOT_TOKEN}
+
   db:
     image: postgres:13
     environment:
@@ -18,3 +23,8 @@ services:
       POSTGRES_DB: wildberries_db
     ports:
       - "5432:5432"
+    volumes:  # Add persistent storage for the database
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
