@@ -5,7 +5,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 app = FastAPI()
 
-# Initialize database
+# Initializing  database
 @app.on_event("startup")
 async def startup_event():
     await init_db()
@@ -13,6 +13,6 @@ async def startup_event():
 # Include Routers
 app.include_router(products.router)
 
-# Scheduler setup
+
 scheduler = AsyncIOScheduler()
 scheduler.start()
