@@ -1,33 +1,34 @@
-from aiogram import Bot, Dispatcher, types
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram import Bot, Router
+from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton
+from aiogram.filters import Command  # Import the Command filter for Aiogram 3.x
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import SessionLocal
 from app.crud import get_product_by_artikul
-from app.config import BOT_TOKEN  # Import BOT_TOKEN
+from app.config import BOT_TOKEN
 
-# Initialize bot and dispatcher
+# Initialize bot and router
 bot = Bot(token=BOT_TOKEN)
-dp = Dispatcher()
+router = Router()
 
 # Define keyboard
 keyboard = ReplyKeyboardMarkup(
-    keyboard=[[KeyboardButton(text="Get product data")]],  # Explicitly define the keyboard layout
+    keyboard=[[KeyboardButton(text="Get product data")]],
     resize_keyboard=True
 )
 
 # /start command handler
-@dp.message_handler(commands=["start"])
-async def start_handler(message: types.Message):
+@router.message(Command(commands=["start"]))  # Use Command filter
+async def start_handler(message: Message):
     await message.answer("Welcome! Use the button below to get product data.", reply_markup=keyboard)
 
 # Handler for "Get product data" button
-@dp.message_handler(lambda message: message.text == "Get product data")
-async def get_product_data_handler(message: types.Message):
+@router.message(lambda message: message.text == "Get product data")
+async def get_product_data_handler(message: Message):
     await message.answer("Please provide the product article number:")
 
 # Handler for receiving article numbers
-@dp.message_handler(lambda message: message.text.isdigit())
-async def fetch_product_data_handler(message: types.Message):
+@router.message(lambda message: message.text.isdigit())
+async def fetch_product_data_handler(message: Message):
     artikul = int(message.text)
     async with SessionLocal() as session:
         product = await get_product_by_artikul(artikul, session)
