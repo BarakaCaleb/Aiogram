@@ -9,7 +9,7 @@ from app.config import BOT_TOKEN  # Import BOT_TOKEN from the config module
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
-# Define keyboard
+# keyboard definition
 keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
 keyboard.add(KeyboardButton("Get product data"))
 

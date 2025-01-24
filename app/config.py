@@ -13,6 +13,6 @@ AUTH_TOKEN = os.getenv("AUTH_TOKEN")
 # Telegram bot token
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
-# Ensure all required variables are loaded
+
 if not all([DATABASE_URL, AUTH_TOKEN, BOT_TOKEN]):
     raise ValueError("Environment variables not properly set in the .env file.")
