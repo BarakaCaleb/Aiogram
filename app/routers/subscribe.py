@@ -3,6 +3,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import SessionLocal
 from app.utils import fetch_product_data
+from app.crud import create_or_update_product
 
 router = APIRouter(prefix="/api/v1/subscribe", tags=["subscribe"])
 scheduler = AsyncIOScheduler()

@@ -1,6 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from app.database import SessionLocal
 from app.models import Product
 
 async def get_product_by_artikul(artikul: int, session: AsyncSession):
