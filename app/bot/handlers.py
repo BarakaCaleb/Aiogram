@@ -3,15 +3,17 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import SessionLocal
 from app.crud import get_product_by_artikul
-from app.config import BOT_TOKEN  # Import BOT_TOKEN from the config module
+from app.config import BOT_TOKEN  # Import BOT_TOKEN
 
 # Initialize bot and dispatcher
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
-# keyboard definition
-keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
-keyboard.add(KeyboardButton("Get product data"))
+# Define keyboard
+keyboard = ReplyKeyboardMarkup(
+    keyboard=[[KeyboardButton(text="Get product data")]],  # Explicitly define the keyboard layout
+    resize_keyboard=True
+)
 
 # /start command handler
 @dp.message_handler(commands=["start"])
